@@ -7,3 +7,9 @@
 # Official Next.js runtime for Netlify (App Router, Server Actions, middleware).
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# Prisma's query engine is loaded dynamically, so Next's file tracing misses it.
+# Force-include the generated engine into the serverless function bundle,
+# otherwise the deployed site throws "Query engine could not be found" at runtime.
+[functions]
+  included_files = ["node_modules/.prisma/client/**"]
