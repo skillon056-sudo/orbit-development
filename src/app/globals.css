@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Segoe UI", system-ui, sans-serif;
+  --font-body: "Segoe UI", system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /* transparent so the fixed 3D scene shows through; solid base is the -z-50 backdrop */
+  background: transparent;
+  color: #e7eaf2;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-6xl px-5 md:px-8;
+  }
+
+  .grad-text {
+    background: linear-gradient(90deg, #2f7bff, #b23bff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold tracking-wide transition-all;
+  }
+  .btn-primary {
+    background: linear-gradient(90deg, #2f7bff, #b23bff);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 34px rgba(120, 43, 255, 0.45);
+  }
+  .btn-ghost {
+    @apply border border-line text-white/90;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  .btn-ghost:hover {
+    border-color: #b23bff;
+  }
+
+  .glass {
+    background: linear-gradient(180deg, rgba(13, 13, 34, 0.9), rgba(8, 8, 26, 0.9));
+    border: 1px solid #1c1c3a;
+    backdrop-filter: blur(8px);
+  }
+
+  .chip {
+    @apply inline-block rounded-full border border-line px-3 py-1 text-xs tracking-wide text-white/70;
+  }
+
+  .section-title {
+    @apply text-3xl font-black md:text-4xl;
+  }
+
+  /* admin form controls */
+  .admin-input {
+    @apply w-full rounded-lg border border-line bg-[#06061a] px-3 py-2.5 text-sm text-white outline-none transition focus:border-neonpurple;
+  }
+  .admin-label {
+    @apply mb-1 block text-xs font-medium text-white/55;
+  }
+  .admin-card {
+    @apply glass rounded-2xl p-6;
+  }
+}
+
+/* Infinite marquee — track holds two copies, animate -50% for seamless loop */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Fine scrollbar for admin */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c1c3a;
+  border-radius: 8px;
+}

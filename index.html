@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORBIT Development — Building Digital Worlds</title>
+<style>
+  :root{
+    --bg:#04040c; --bg2:#0a0a1c; --panel:#0d0d22; --line:#1c1c3a;
+    --txt:#e7eaf2; --mut:#9aa0b4;
+    --blue:#2f7bff; --purple:#b23bff; --green:#7be04f;
+    --grad:linear-gradient(90deg,var(--blue),var(--purple));
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  /* starfield */
+  .stars{position:fixed;inset:0;z-index:0;background:
+    radial-gradient(1400px 700px at 50% -10%, rgba(58,43,140,.35), transparent 60%),
+    var(--bg);}
+  .stars::after{content:"";position:absolute;inset:0;opacity:.5;
+    background-image:radial-gradient(1.5px 1.5px at 20% 30%,#cfe0ff,transparent),
+      radial-gradient(1.5px 1.5px at 80% 20%,#fff,transparent),
+      radial-gradient(1px 1px at 60% 70%,#9ab,transparent),
+      radial-gradient(1.5px 1.5px at 35% 85%,#cfe0ff,transparent),
+      radial-gradient(1px 1px at 90% 60%,#fff,transparent);}
+  main,header{position:relative;z-index:1}
+
+  /* nav */
+  header{position:sticky;top:0;backdrop-filter:blur(10px);background:rgba(4,4,12,.6);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:2px}
+  .brand svg{width:40px;height:40px}
+  .brand small{display:block;font-size:9px;letter-spacing:5px;color:var(--mut);font-weight:600}
+  .links{display:flex;gap:28px;font-size:14px;color:var(--mut)}
+  .links a:hover{color:#fff}
+  .btn{background:var(--grad);color:#fff;padding:11px 22px;border-radius:10px;font-weight:700;font-size:14px;border:0;cursor:pointer;transition:transform .15s,box-shadow .15s}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(120,43,255,.4)}
+  .menu-btn{display:none;background:none;border:0;color:#fff;font-size:26px;cursor:pointer}
+
+  /* hero */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:90px 0 70px}
+  .tag{display:inline-block;font-size:12px;letter-spacing:3px;color:var(--purple);border:1px solid var(--line);padding:6px 14px;border-radius:20px;margin-bottom:22px}
+  h1{font-size:clamp(38px,6vw,66px);line-height:1.05;font-weight:900;letter-spacing:-1px}
+  .hero p{color:var(--mut);font-size:18px;margin:22px 0 32px;max-width:520px}
+  .hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .btn.ghost{background:transparent;border:1px solid var(--line)}
+  .emblem{display:flex;justify-content:center;filter:drop-shadow(0 20px 60px rgba(80,43,180,.5));animation:float 6s ease-in-out infinite}
+  @keyframes float{50%{transform:translateY(-16px)}}
+  .emblem svg{width:100%;max-width:380px}
+
+  .stat-row{display:flex;gap:40px;margin-top:44px;flex-wrap:wrap}
+  .stat b{font-size:30px;font-weight:900}
+  .stat span{display:block;color:var(--mut);font-size:13px;letter-spacing:1px}
+
+  /* sections */
+  section{padding:80px 0}
+  .head{text-align:center;max-width:640px;margin:0 auto 50px}
+  .head h2{font-size:clamp(28px,4vw,42px);font-weight:900}
+  .head p{color:var(--mut);margin-top:12px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{background:linear-gradient(180deg,var(--panel),#08081a);border:1px solid var(--line);border-radius:16px;padding:30px;transition:transform .2s,border-color .2s}
+  .card:hover{transform:translateY(-6px);border-color:var(--purple)}
+  .card .ico{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;font-size:24px;background:rgba(120,43,255,.12);border:1px solid var(--line);margin-bottom:18px}
+  .card h3{font-size:19px;margin-bottom:8px}
+  .card p{color:var(--mut);font-size:14.5px}
+
+  /* about */
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .about ul{list-style:none;margin-top:22px;display:grid;gap:12px}
+  .about li{display:flex;gap:10px;color:var(--mut)}
+  .about li::before{content:"◆";color:var(--purple)}
+  .ring-box{aspect-ratio:1;border-radius:20px;background:radial-gradient(circle,rgba(120,43,255,.15),transparent 70%);display:grid;place-items:center}
+  .ring-box svg{width:80%}
+
+  /* contact */
+  .contact{background:linear-gradient(120deg,rgba(47,123,255,.1),rgba(178,59,255,.1));border:1px solid var(--line);border-radius:22px;padding:56px;text-align:center}
+  form{display:grid;gap:14px;max-width:520px;margin:26px auto 0}
+  input,textarea{background:#06061a;border:1px solid var(--line);border-radius:10px;padding:14px 16px;color:#fff;font-family:inherit;font-size:15px}
+  input:focus,textarea:focus{outline:none;border-color:var(--purple)}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:var(--mut);font-size:14px}
+
+  @media(max-width:860px){
+    .links{display:none}.menu-btn{display:block}
+    .hero,.about{grid-template-columns:1fr}.emblem{order:-1}
+    .grid{grid-template-columns:1fr}.contact{padding:34px 20px}
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+
+<!-- Reusable emblem symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <linearGradient id="rg" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#1e6bff"/><stop offset=".5" stop-color="#5a2bff"/><stop offset="1" stop-color="#b23bff"/></linearGradient>
+  <linearGradient id="rg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a2bff"/><stop offset="1" stop-color="#1e6bff"/></linearGradient>
+  <linearGradient id="mt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eafcff"/><stop offset=".18" stop-color="#7be04f"/><stop offset=".55" stop-color="#3fa32a"/><stop offset="1" stop-color="#1c5c15"/></linearGradient>
+  <linearGradient id="hr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#37c6ff"/><stop offset="1" stop-color="#a03bff"/></linearGradient>
+  <linearGradient id="pl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6a5bff"/><stop offset="1" stop-color="#2a1b6e"/></linearGradient>
+  <symbol id="emblem" viewBox="-380 -380 760 900">
+    <ellipse cx="0" cy="0" rx="330" ry="120" fill="none" stroke="url(#rg)" stroke-width="26" transform="rotate(-18)" stroke-linecap="round" stroke-dasharray="620 900"/>
+    <path d="M -60 -250 A 250 250 0 0 0 -250 60" fill="none" stroke="url(#rg2)" stroke-width="52" stroke-linecap="round"/>
+    <path d="M 60 -250 A 250 250 0 0 1 250 60" fill="none" stroke="url(#rg)" stroke-width="52" stroke-linecap="round"/>
+    <path d="M -215 150 A 250 250 0 0 0 -30 245" fill="none" stroke="url(#rg2)" stroke-width="52" stroke-linecap="round"/>
+    <path d="M 215 150 A 250 250 0 0 1 40 245" fill="none" stroke="url(#rg)" stroke-width="52" stroke-linecap="round"/>
+    <path d="M -150 30 A 150 150 0 0 1 150 30 L 150 120 A 30 30 0 0 1 120 150 L -120 150 A 30 30 0 0 1 -150 120 Z" fill="url(#mt)" stroke="url(#hr)" stroke-width="7"/>
+    <path d="M -120 -20 A 120 120 0 0 1 120 -20" fill="none" stroke="#eaffea" stroke-width="10" opacity=".55" stroke-linecap="round"/>
+    <g stroke="url(#hr)" stroke-width="10" stroke-linecap="round"><line x1="-70" y1="-70" x2="-100" y2="-118"/><line x1="70" y1="-70" x2="100" y2="-118"/></g>
+    <circle cx="-100" cy="-122" r="9" fill="#37c6ff"/><circle cx="100" cy="-122" r="9" fill="#b23bff"/>
+    <circle cx="-58" cy="55" r="20" fill="#fff"/><circle cx="58" cy="55" r="20" fill="#fff"/>
+    <circle cx="-58" cy="55" r="9" fill="#0c3d55"/><circle cx="58" cy="55" r="9" fill="#0c3d55"/>
+    <path d="M -335 40 A 335 122 -18 0 0 305 -70" fill="none" stroke="url(#rg)" stroke-width="26" stroke-linecap="round" transform="rotate(-18)"/>
+    <g transform="translate(300 -120)"><circle r="34" fill="url(#pl)" stroke="#8a7bff" stroke-width="2"/><ellipse rx="52" ry="14" fill="none" stroke="#b23bff" stroke-width="6" transform="rotate(-18)"/></g>
+  </symbol>
+</defs></svg>
+
+<header>
+  <div class="wrap"><nav>
+    <a class="brand" href="#top">
+      <svg><use href="#emblem"/></svg>
+      <span>ORBIT<small>DEVELOPMENT</small></span>
+    </a>
+    <div class="links">
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#work">Why Us</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="btn">Start a Project</a>
+    <button class="menu-btn" onclick="document.querySelector('.links').style.display='flex'">☰</button>
+  </nav></div>
+</header>
+
+<main id="top">
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <span class="tag">★ BUILDING DIGITAL WORLDS</span>
+      <h1>We build <span class="grad-text">software</span> that puts you in orbit.</h1>
+      <p>ORBIT Development designs and ships modern websites, mobile apps and custom software — engineered for speed, scale and a premium user experience.</p>
+      <div class="cta">
+        <a href="#contact" class="btn">Start a Project</a>
+        <a href="#services" class="btn ghost">Explore Services</a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b class="grad-text">50+</b><span>PROJECTS SHIPPED</span></div>
+        <div class="stat"><b class="grad-text">100%</b><span>CLIENT FOCUSED</span></div>
+        <div class="stat"><b class="grad-text">24/7</b><span>SUPPORT</span></div>
+      </div>
+    </div>
+    <div class="emblem"><svg viewBox="-380 -380 760 900"><use href="#emblem"/></svg></div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="head">
+      <h2>What We <span class="grad-text">Build</span></h2>
+      <p>End-to-end digital product development — from a single landing page to complex custom platforms.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="ico">🌐</div><h3>Website Development</h3><p>Fast, responsive, SEO-ready sites and web apps built on modern stacks.</p></div>
+      <div class="card"><div class="ico">📱</div><h3>App Development</h3><p>Native and cross-platform mobile apps with smooth, polished UX.</p></div>
+      <div class="card"><div class="ico">⚙️</div><h3>Custom Software</h3><p>Tailored platforms, dashboards and automation built around your workflow.</p></div>
+      <div class="card"><div class="ico">🚀</div><h3>Digital Products</h3><p>From idea to launch — MVPs and full products that scale with you.</p></div>
+      <div class="card"><div class="ico">🎨</div><h3>Modern UI/UX</h3><p>Clean, futuristic interface design that users actually enjoy.</p></div>
+      <div class="card"><div class="ico">🛰️</div><h3>Technology Solutions</h3><p>Cloud, APIs and integrations that keep your systems in sync.</p></div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="ring-box"><svg viewBox="-380 -380 760 760"><use href="#emblem"/></svg></div>
+    <div>
+      <div class="head" style="text-align:left;margin:0 0 10px">
+        <h2>Engineering the <span class="grad-text">future</span>, one launch at a time.</h2>
+      </div>
+      <p style="color:var(--mut)">We're a modern software studio blending clean engineering with premium design. Space is our metaphor: precise systems, bold ambition, and products built to go the distance.</p>
+      <ul>
+        <li>Product-minded engineers, not just code writers</li>
+        <li>Design and development under one roof</li>
+        <li>Transparent process, clear timelines</li>
+        <li>Built to scale from day one</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="work">
+    <div class="head">
+      <h2>Why <span class="grad-text">ORBIT</span></h2>
+      <p>The difference is in how we work.</p>
+    </div>
+    <div class="grid">
+      <div class="card"><div class="ico">⚡</div><h3>Fast Delivery</h3><p>Agile sprints and clear milestones get you to launch sooner.</p></div>
+      <div class="card"><div class="ico">🔒</div><h3>Built to Last</h3><p>Secure, maintainable code with quality baked in.</p></div>
+      <div class="card"><div class="ico">🤝</div><h3>True Partnership</h3><p>We stay after launch — support, iteration and growth.</p></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact">
+      <div class="head" style="margin-bottom:6px"><h2>Let's launch <span class="grad-text">your idea</span>.</h2>
+      <p>Tell us about your project and we'll get back within 24 hours.</p></div>
+      <form onsubmit="event.preventDefault();this.reset();document.getElementById('ok').style.display='block'">
+        <input required placeholder="Your name">
+        <input required type="email" placeholder="Email address">
+        <textarea required rows="4" placeholder="Tell us about your project"></textarea>
+        <button class="btn" type="submit">Send Message</button>
+        <p id="ok" style="display:none;color:var(--green)">✓ Thanks! We'll be in touch soon.</p>
+      </form>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    ORBIT DEVELOPMENT · Building Digital Worlds &nbsp;·&nbsp; hello@orbitdev.io<br>
+    <span style="opacity:.6">© 2026 ORBIT Development. All rights reserved.</span>
+  </div>
+</footer>
+</body>
+</html>

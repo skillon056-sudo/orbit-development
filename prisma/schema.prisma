@@ -1,0 +1,76 @@
+generator client {
+  provider      = "prisma-client-js"
+  // "native" for local dev; rhel targets for Netlify/AWS Lambda runtime.
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Website / App development templates (products)
+model Template {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  shortDesc    String
+  description  String
+  coverImage   String
+  screenshots  String   @default("[]") // JSON array of image URLs
+  basePrice    Int // stored in whole rupees
+  extraCharges String   @default("") // free-form, e.g. "₹5,000 for extra pages"
+  pricingNotes String   @default("")
+  category     String // "WEBSITE" | "APP"
+  technologies String   @default("[]") // JSON array of strings
+  techStack    String   @default("")
+  features     String   @default("[]") // JSON array of strings
+  deliveryInfo String   @default("")
+  supportInfo  String   @default("")
+  status       String   @default("DRAFT") // DRAFT | PUBLISHED | UNPUBLISHED
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([category, status])
+}
+
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  logo      String
+  enabled   Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+// Singleton (id = 1)
+model ContactSettings {
+  id                  Int      @id @default(1)
+  whatsappNumber      String   @default("")
+  whatsappSupportLink String   @default("")
+  whatsappChannelLink String   @default("")
+  telegramUsername    String   @default("")
+  telegramLink        String   @default("")
+  supportMessage      String   @default("")
+  email               String   @default("")
+  updatedAt           DateTime @updatedAt
+}
+
+// Singleton (id = 1)
+model HomepageSettings {
+  id              Int      @id @default(1)
+  heroTitle       String   @default("BUILDING DIGITAL WORLDS")
+  heroSubtitle    String   @default("ORBIT DEVELOPMENT")
+  heroDescription String   @default("")
+  ctaPrimary      String   @default("EXPLORE OUR WORK")
+  ctaSecondary    String   @default("CONTACT US")
+  features        String   @default("[]") // JSON array of {title, desc, icon}
+  updatedAt       DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String @id @default(cuid())
+  username     String @unique
+  passwordHash String
+}
