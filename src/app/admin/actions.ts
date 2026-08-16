@@ -151,6 +151,23 @@ export async function deleteTemplate(id: string) {
   refresh();
 }
 
+export async function duplicateTemplate(id: string) {
+  await requireAuth();
+  const t = await prisma.template.findUnique({ where: { id } });
+  if (!t) return;
+
+  // unique "-copy" slug
+  let slug = `${t.slug}-copy`;
+  let n = 1;
+  while (await prisma.template.findUnique({ where: { slug } })) slug = `${t.slug}-copy-${++n}`;
+
+  const { id: _id, createdAt: _c, updatedAt: _u, ...rest } = t;
+  await prisma.template.create({
+    data: { ...rest, title: `${t.title} (Copy)`, slug, status: STATUS.DRAFT },
+  });
+  refresh();
+}
+
 export async function setTemplateStatus(id: string, status: string) {
   await requireAuth();
   await prisma.template.update({ where: { id }, data: { status } });

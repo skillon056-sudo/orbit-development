@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useTransition } from "react";
-import { deleteTemplate, setTemplateStatus } from "@/app/admin/actions";
+import { deleteTemplate, duplicateTemplate, setTemplateStatus } from "@/app/admin/actions";
 import { STATUS } from "@/lib/constants";
 
 export default function TemplateRowActions({
@@ -27,6 +27,13 @@ export default function TemplateRowActions({
         className="rounded-md border border-line px-2.5 py-1.5 hover:border-neonpurple disabled:opacity-50"
       >
         {published ? "Unpublish" : "Publish"}
+      </button>
+      <button
+        disabled={pending}
+        onClick={() => start(() => duplicateTemplate(id))}
+        className="rounded-md border border-line px-2.5 py-1.5 hover:border-neonpurple disabled:opacity-50"
+      >
+        Duplicate
       </button>
       <button
         disabled={pending}
