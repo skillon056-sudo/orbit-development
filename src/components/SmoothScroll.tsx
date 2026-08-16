@@ -8,11 +8,13 @@ import { scrollState } from "@/lib/scrollStore";
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Native scroll on touch/small screens — Lenis fights the OS scroll there and feels laggy.
+    const touch = window.matchMedia("(max-width: 900px)").matches || "ontouchstart" in window;
     let lenis: Lenis | undefined;
     let rafId = 0;
 
-    if (!reduce) {
-      lenis = new Lenis({ duration: 1.1, smoothWheel: true, touchMultiplier: 1.5 });
+    if (!reduce && !touch) {
+      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
       const raf = (t: number) => {
         lenis!.raf(t);
         rafId = requestAnimationFrame(raf);

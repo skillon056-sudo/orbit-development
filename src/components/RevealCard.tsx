@@ -16,11 +16,10 @@ export default function RevealCard({
   return (
     <motion.div
       className={className}
-      style={{ perspective: 1000 }}
-      initial={{ opacity: 0, y: 70, z: -160, rotateX: -14, scale: 0.9, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, z: 0, rotateX: 0, scale: 1, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y: 44, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
