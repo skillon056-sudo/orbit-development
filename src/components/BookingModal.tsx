@@ -110,7 +110,8 @@ export default function BookingModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/70 p-3 backdrop-blur-sm sm:p-6"
+        data-lenis-prevent
+        className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto overscroll-contain bg-black/70 p-3 backdrop-blur-sm sm:p-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -145,7 +146,7 @@ export default function BookingModal({
               onClose={onClose}
             />
           ) : (
-            <div className="max-h-[88vh] overflow-y-auto p-5 sm:p-6">
+            <div data-lenis-prevent className="max-h-[88vh] overflow-y-auto overscroll-contain p-5 sm:p-6">
               {/* header */}
               <p className="text-xs font-semibold tracking-wider text-neonblue">REQUEST A CONSULTATION</p>
               <h2 className="mt-1 text-xl font-bold">{template.title}</h2>
