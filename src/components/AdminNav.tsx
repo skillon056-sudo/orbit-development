@@ -7,8 +7,9 @@ import { logoutAction } from "@/app/admin/actions";
 
 const items = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
+  { href: "/admin/leads", label: "Leads", icon: "users" },
   { href: "/admin/templates", label: "Templates", icon: "stack" },
-  { href: "/admin/clients", label: "Clients", icon: "users" },
+  { href: "/admin/clients", label: "Clients", icon: "megaphone" },
   { href: "/admin/contact", label: "Contact Settings", icon: "phone" },
   { href: "/admin/homepage", label: "Homepage", icon: "home" },
 ];

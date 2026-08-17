@@ -233,6 +233,51 @@ export async function deleteClient(id: string) {
   refresh();
 }
 
+// ================= LEADS (consultation requests) =================
+const LEAD_STATUSES = [
+  "NEW", "CONTACTED", "MEETING_SCHEDULED", "IN_PROGRESS", "CONVERTED", "NOT_INTERESTED", "CLOSED",
+];
+
+export async function setLeadStatus(id: string, status: string) {
+  await requireAuth();
+  if (!LEAD_STATUSES.includes(status)) return;
+  await prisma.consultationRequest.update({ where: { id }, data: { status } });
+  revalidatePath("/admin/leads");
+  revalidatePath(`/admin/leads/${id}`);
+  revalidatePath("/admin");
+}
+
+export async function updateLeadNotes(id: string, formData: FormData) {
+  await requireAuth();
+  await prisma.consultationRequest.update({
+    where: { id },
+    data: { notes: str(formData, "notes").slice(0, 2000) },
+  });
+  revalidatePath(`/admin/leads/${id}`);
+}
+
+export async function rescheduleLead(id: string, formData: FormData) {
+  await requireAuth();
+  const date = str(formData, "preferredDate");
+  const time = str(formData, "preferredTime");
+  const data: { preferredDate?: string; preferredTime?: string } = {};
+  if (/^\d{4}-\d{2}-\d{2}$/.test(date)) data.preferredDate = date;
+  if (time) data.preferredTime = time;
+  if (Object.keys(data).length) {
+    await prisma.consultationRequest.update({ where: { id }, data });
+  }
+  revalidatePath(`/admin/leads/${id}`);
+  revalidatePath("/admin/leads");
+}
+
+export async function deleteLead(id: string) {
+  await requireAuth();
+  await prisma.consultationRequest.delete({ where: { id } });
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  redirect("/admin/leads");
+}
+
 // ================= CONTACT SETTINGS =================
 export async function updateContact(formData: FormData) {
   await requireAuth();

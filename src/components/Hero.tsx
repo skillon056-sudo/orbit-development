@@ -20,7 +20,7 @@ export default function Hero({
     <section className="relative overflow-hidden">
       {/* atmospheric glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-10%] h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(58,43,140,0.35),transparent_60%)]" />
+        <div className="absolute left-1/2 top-[-10%] h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.14),transparent_60%)]" />
       </div>
 
       <div className="wrap grid items-center gap-8 py-20 md:grid-cols-2 md:py-28">

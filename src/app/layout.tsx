@@ -24,8 +24,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen font-body antialiased">
-        {/* fixed cosmic backdrop (solid base under the 3D scene) */}
-        <div className="pointer-events-none fixed inset-0 -z-50 bg-ink bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(58,43,140,0.25),transparent_60%)]" />
+        {/* fixed backdrop (solid charcoal base + very subtle top glow) */}
+        <div className="pointer-events-none fixed inset-0 -z-50 bg-ink bg-[radial-gradient(1100px_520px_at_50%_-15%,rgba(59,130,246,0.12),transparent_60%)]" />
         {children}
       </body>
     </html>

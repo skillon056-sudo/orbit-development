@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { CATEGORY_META, formatPrice, parseList, type Category } from "@/lib/constants";
-import OrderButton from "./OrderButton";
+import BookNowButton from "./BookNowButton";
 
 export type TemplateCardData = {
+  id: string;
   slug: string;
   title: string;
   shortDesc: string;
@@ -99,8 +100,8 @@ export default function TemplateCard({
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-2">
-          <OrderButton
-            templateTitle={t.title}
+          <BookNowButton
+            template={{ id: t.id, title: t.title, category: t.category, basePrice: t.basePrice }}
             whatsappNumber={whatsappNumber}
             className="btn btn-primary !px-3 !py-2.5 text-xs"
           />

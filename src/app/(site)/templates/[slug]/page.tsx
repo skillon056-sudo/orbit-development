@@ -11,7 +11,7 @@ import {
   STATUS,
   type Category,
 } from "@/lib/constants";
-import OrderButton from "@/components/OrderButton";
+import BookNowButton from "@/components/BookNowButton";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -140,7 +140,11 @@ export default async function TemplateDetail({
             {t.techStack && <p className="mt-3 text-xs text-white/40">{t.techStack}</p>}
 
             <div className="mt-6 flex flex-col gap-2">
-              <OrderButton templateTitle={t.title} whatsappNumber={contact.whatsappNumber} className="btn btn-primary w-full" />
+              <BookNowButton
+                template={{ id: t.id, title: t.title, category: t.category, basePrice: t.basePrice }}
+                whatsappNumber={contact.whatsappNumber}
+                className="btn btn-primary w-full"
+              />
               <Link href="/contact" className="btn btn-ghost w-full">Ask a question</Link>
             </div>
             <p className="mt-3 text-center text-xs text-white/35">Opens WhatsApp with your inquiry pre-filled.</p>

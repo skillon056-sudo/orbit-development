@@ -5,21 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#04040c",
-        ink2: "#0a0a1c",
-        panel: "#0d0d22",
-        line: "#1c1c3a",
-        neonblue: "#2f7bff",
-        neonpurple: "#b23bff",
-        androidgreen: "#7be04f",
+        // Professional charcoal + blue system (retuned from the old neon palette).
+        ink: "#0B0D10", // deep charcoal background
+        ink2: "#0F141A", // slightly raised
+        panel: "#11151A", // surface
+        line: "#252B33", // borders
+        neonblue: "#3B82F6", // primary accent (professional blue)
+        neonpurple: "#6366F1", // secondary accent (muted indigo)
+        androidgreen: "#7be04f", // brand mark only
+        muted: "#8B95A5",
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         body: ["var(--font-body)", "system-ui", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 40px rgba(120,43,255,0.35)",
-        glowblue: "0 0 40px rgba(47,123,255,0.35)",
+        glow: "0 10px 30px rgba(0,0,0,0.4)",
+        glowblue: "0 8px 24px rgba(59,130,246,0.25)",
       },
       keyframes: {
         marquee: {

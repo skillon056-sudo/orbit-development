@@ -10,7 +10,7 @@
 html {
   scroll-behavior: smooth;
   /* solid dark base behind everything — prevents white flash on mobile overscroll */
-  background-color: #04040c;
+  background-color: #0b0d10;
 }
 
 body {
@@ -39,22 +39,22 @@ body {
   }
 
   .grad-text {
-    background: linear-gradient(90deg, #2f7bff, #b23bff);
+    background: linear-gradient(90deg, #60a5fa, #818cf8);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold tracking-wide transition-all;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold tracking-wide transition-all;
   }
   .btn-primary {
-    background: linear-gradient(90deg, #2f7bff, #b23bff);
+    background: #3b82f6;
     color: #fff;
   }
   .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 34px rgba(120, 43, 255, 0.45);
+    background: #2f6fe0;
+    box-shadow: 0 8px 22px rgba(59, 130, 246, 0.3);
   }
   .btn-ghost {
     @apply border border-line text-white/90;
