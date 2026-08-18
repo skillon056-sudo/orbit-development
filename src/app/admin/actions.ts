@@ -12,7 +12,7 @@ import {
   cookieOptions,
 } from "@/lib/auth";
 import { saveFile, saveOptionalFile } from "@/lib/storage";
-import { slugify, CATEGORY, STATUS } from "@/lib/constants";
+import { slugify, CATEGORY, STATUS, isValidDemoUrl } from "@/lib/constants";
 
 async function requireAuth() {
   const s = await getSession();
@@ -105,13 +105,29 @@ async function readTemplateForm(fd: FormData, existingCover = "", existingShots 
     features: toList(fd.get("features")),
     deliveryInfo: str(fd, "deliveryInfo"),
     supportInfo: str(fd, "supportInfo"),
+    demoDownloadUrl: (() => {
+      const d = str(fd, "demoDownloadUrl");
+      return d && isValidDemoUrl(d) ? d : "";
+    })(),
+    liveDemoUrl: (() => {
+      const d = str(fd, "liveDemoUrl");
+      return d && isValidDemoUrl(d) ? d : "";
+    })(),
     status,
     order: num(fd, "order"),
   };
 }
 
+// Reject obviously-invalid (non-empty but malformed) demo/live URLs before saving.
+function badDemoUrl(fd: FormData): boolean {
+  const demo = str(fd, "demoDownloadUrl");
+  const live = str(fd, "liveDemoUrl");
+  return (!!demo && !isValidDemoUrl(demo)) || (!!live && !isValidDemoUrl(live));
+}
+
 export async function createTemplate(formData: FormData) {
   await requireAuth();
+  if (badDemoUrl(formData)) redirect("/admin/templates/new?error=demo");
   const data = await readTemplateForm(formData);
   if (!data.title || !data.coverImage) redirect("/admin/templates/new?error=missing");
 
@@ -127,6 +143,7 @@ export async function createTemplate(formData: FormData) {
 
 export async function updateTemplate(id: string, formData: FormData) {
   await requireAuth();
+  if (badDemoUrl(formData)) redirect(`/admin/templates/${id}/edit?error=demo`);
   const current = await prisma.template.findUnique({ where: { id } });
   if (!current) redirect("/admin/templates");
   const data = await readTemplateForm(formData, current.coverImage, current.screenshots);

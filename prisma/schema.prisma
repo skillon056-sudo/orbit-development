@@ -27,6 +27,8 @@ model Template {
   features     String   @default("[]") // JSON array of strings
   deliveryInfo String   @default("")
   supportInfo  String   @default("")
+  demoDownloadUrl String @default("") // APK/ZIP direct download (optional)
+  liveDemoUrl     String @default("") // live site demo (optional, future button)
   status       String   @default("DRAFT") // DRAFT | PUBLISHED | UNPUBLISHED
   order        Int      @default(0)
   createdAt    DateTime @default(now())

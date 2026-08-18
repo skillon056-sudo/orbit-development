@@ -138,6 +138,19 @@ export function formatSubmitted(date: Date): string {
   }).format(date);
 }
 
+// Validate an admin-entered demo/download URL: http(s) only (rejects javascript:,
+// data:, etc.), reasonable length. Used both server-side and client-side.
+export function isValidDemoUrl(url: string | null | undefined): boolean {
+  const u = (url || "").trim();
+  if (!u || u.length > 2048) return false;
+  try {
+    const p = new URL(u);
+    return p.protocol === "https:" || p.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
 export function slugify(input: string): string {
   return input
     .toLowerCase()

@@ -18,6 +18,11 @@ export default function NewTemplate({
           Title and a cover image are required.
         </p>
       )}
+      {searchParams.error === "demo" && (
+        <p className="mt-3 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-300">
+          Please enter a valid demo download URL (must start with https://).
+        </p>
+      )}
       <div className="mt-6">
         <TemplateForm action={createTemplate} />
       </div>

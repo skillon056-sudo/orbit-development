@@ -76,6 +76,13 @@ const line: Record<string, ReactNode> = {
       <path d="M9 21v-6h6v6" />
     </>
   ),
+  download: (
+    <>
+      <path d="M12 3v12" />
+      <path d="m7 12 5 5 5-5" />
+      <path d="M5 21h14" />
+    </>
+  ),
 };
 
 const filled: Record<string, ReactNode> = {

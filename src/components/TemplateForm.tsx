@@ -18,6 +18,8 @@ type T = {
   features: string;
   deliveryInfo: string;
   supportInfo: string;
+  demoDownloadUrl: string;
+  liveDemoUrl: string;
   status: string;
   order: number;
 };
@@ -101,6 +103,19 @@ export default function TemplateForm({
           <Field label="Extra charges (free text)"><input name="extraCharges" defaultValue={t?.extraCharges} placeholder="₹5,000 per extra page" className="admin-input" /></Field>
           <Field label="Pricing notes"><input name="pricingNotes" defaultValue={t?.pricingNotes} className="admin-input" /></Field>
         </div>
+      </section>
+
+      <section className="admin-card space-y-4">
+        <h2 className="font-bold">Demo</h2>
+        <p className="text-xs text-white/45">
+          Optional. Direct link to an APK/ZIP (or any file). If set, a DOWNLOAD DEMO button appears on the template page. Must be a valid http(s) URL. Leave blank to remove.
+        </p>
+        <Field label="Demo download URL (APK / ZIP)">
+          <input name="demoDownloadUrl" type="url" defaultValue={t?.demoDownloadUrl} placeholder="https://cdn.example.com/demos/app.apk" className="admin-input" />
+        </Field>
+        <Field label="Live demo URL (optional, for websites)">
+          <input name="liveDemoUrl" type="url" defaultValue={t?.liveDemoUrl} placeholder="https://demo.example.com" className="admin-input" />
+        </Field>
       </section>
 
       <section className="admin-card space-y-4">

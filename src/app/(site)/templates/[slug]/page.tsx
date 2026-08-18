@@ -8,10 +8,12 @@ import {
   CATEGORY_META,
   formatPrice,
   parseList,
+  isValidDemoUrl,
   STATUS,
   type Category,
 } from "@/lib/constants";
 import BookNowButton from "@/components/BookNowButton";
+import DownloadDemoButton from "@/components/DownloadDemoButton";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -140,6 +142,9 @@ export default async function TemplateDetail({
             {t.techStack && <p className="mt-3 text-xs text-white/40">{t.techStack}</p>}
 
             <div className="mt-6 flex flex-col gap-2">
+              {isValidDemoUrl(t.demoDownloadUrl) && (
+                <DownloadDemoButton url={t.demoDownloadUrl} title={t.title} className="btn btn-ghost w-full" />
+              )}
               <BookNowButton
                 template={{ id: t.id, title: t.title, category: t.category, basePrice: t.basePrice }}
                 whatsappNumber={contact.whatsappNumber}

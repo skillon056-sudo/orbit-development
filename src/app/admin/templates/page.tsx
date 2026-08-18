@@ -47,6 +47,11 @@ export default async function TemplatesAdmin() {
                     {t.status}
                   </span>
                   <span className="chip !text-[10px]">{CATEGORY_META[t.category as Category]?.label}</span>
+                  {t.demoDownloadUrl ? (
+                    <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-300">Demo ✓</span>
+                  ) : (
+                    <span className="rounded-full border border-line px-2 py-0.5 text-[10px] text-white/35">No demo</span>
+                  )}
                 </div>
                 <p className="mt-0.5 truncate text-xs text-white/45">/{t.slug} · {formatPrice(t.basePrice)}</p>
               </div>
