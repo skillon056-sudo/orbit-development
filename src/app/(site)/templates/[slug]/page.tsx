@@ -14,6 +14,7 @@ import {
 } from "@/lib/constants";
 import BookNowButton from "@/components/BookNowButton";
 import DownloadDemoButton from "@/components/DownloadDemoButton";
+import PixelView from "@/components/PixelView";
 import Reveal from "@/components/Reveal";
 
 export const dynamic = "force-dynamic";
@@ -52,6 +53,7 @@ export default async function TemplateDetail({
 
   return (
     <article className="wrap py-12">
+      <PixelView name={t.title} category={t.category} value={t.basePrice} />
       <nav className="mb-6 text-sm text-white/45">
         <Link href="/" className="hover:text-white">Home</Link>
         <span className="mx-2">/</span>

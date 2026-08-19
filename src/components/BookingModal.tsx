@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Calendar from "./Calendar";
 import { createConsultation } from "@/app/actions/consultation";
 import { waLink, consultationMessage } from "@/lib/whatsapp";
+import { trackStandard } from "@/lib/pixel";
 import {
   INTENT,
   INTENT_META,
@@ -87,8 +88,17 @@ export default function BookingModal({
       projectMessage: message,
     });
     setSubmitting(false);
-    if (res.ok) setDone(true);
-    else setError(res.error);
+    if (res.ok) {
+      // Meta Pixel conversion — this is the event ads optimize toward.
+      trackStandard("Lead", {
+        content_name: template.title,
+        content_category: template.category,
+        value: template.basePrice,
+        currency: "INR",
+        intent,
+      });
+      setDone(true);
+    } else setError(res.error);
   }
 
   const followUpHref =

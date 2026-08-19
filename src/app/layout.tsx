@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import MetaPixel from "@/components/MetaPixel";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://orbitdev.example"),
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen font-body antialiased">
+        <MetaPixel />
         {/* fixed backdrop (solid charcoal base + very subtle top glow) */}
         <div className="pointer-events-none fixed inset-0 -z-50 bg-ink bg-[radial-gradient(1100px_520px_at_50%_-15%,rgba(59,130,246,0.12),transparent_60%)]" />
         {children}
