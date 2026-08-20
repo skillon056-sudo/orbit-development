@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Calendar from "./Calendar";
 import { createConsultation } from "@/app/actions/consultation";
@@ -53,6 +54,10 @@ export default function BookingModal({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+
+  // portal target must exist (client only)
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   // lock body scroll while open
   useEffect(() => {
@@ -117,11 +122,13 @@ export default function BookingModal({
         )
       : "#";
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       <motion.div
         data-lenis-prevent
-        className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto overscroll-contain bg-black/70 p-3 backdrop-blur-sm sm:p-6"
+        className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-black/70 p-3 backdrop-blur-sm sm:p-6"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -130,7 +137,7 @@ export default function BookingModal({
         }}
       >
         <motion.div
-          className="relative my-4 w-full max-w-lg rounded-2xl border border-line bg-panel shadow-glow"
+          className="relative mx-auto my-4 w-full max-w-lg rounded-2xl border border-line bg-panel shadow-glow"
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.98 }}
@@ -156,7 +163,7 @@ export default function BookingModal({
               onClose={onClose}
             />
           ) : (
-            <div data-lenis-prevent className="max-h-[88vh] overflow-y-auto overscroll-contain p-5 sm:p-6">
+            <div className="p-5 sm:p-6">
               {/* header */}
               <p className="text-xs font-semibold tracking-wider text-neonblue">REQUEST A CONSULTATION</p>
               <h2 className="mt-1 text-xl font-bold">{template.title}</h2>
@@ -297,7 +304,8 @@ export default function BookingModal({
           )}
         </motion.div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
 
