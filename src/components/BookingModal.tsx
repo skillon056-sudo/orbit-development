@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Calendar from "./Calendar";
 import { createConsultation } from "@/app/actions/consultation";
 import { waLink, consultationMessage } from "@/lib/whatsapp";
-import { trackStandard } from "@/lib/pixel";
+import { trackStandard, identifyUser } from "@/lib/pixel";
 import {
   INTENT,
   INTENT_META,
@@ -94,6 +94,8 @@ export default function BookingModal({
     });
     setSubmitting(false);
     if (res.ok) {
+      // Advanced Matching — send the (hashed) phone so Meta can match this lead.
+      identifyUser({ phone: normalized });
       // Meta Pixel conversion — this is the event ads optimize toward.
       trackStandard("Lead", {
         content_name: template.title,
